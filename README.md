@@ -1,0 +1,1 @@
+# omikuji-app.github.io
