@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>おみくじアプリ</title>
+</head>
+
+<body>
+<h1>おみくじ</h1>
+<input type="text" id="name" placeholder="お名前は？">
+<div id="result" hidden>
+    <p>こんにちは、<span id="yourName">ほにゃほにゃ</span>さん！</p>
+    <p>今日のあなたの運勢は、<span id="unsei">ほにゃらら</span>です！</p>
+</div>
+<input type="submit" id=submit value="おみくじを引く！" onclick="drawOmikuji();">
+<script>
+    // ## 課題6
+    //
+    // 課題5のおみくじを、オブジェクトごと配列に入れて、switch-case文やif文を使わないように書き換えてみましょう。
+    // 配列`array`の`i`番目のオブジェクトの`name`プロパティを参照するには、`array[i].name`と書きます。
+    //
+    // ```
+    const omikujis = [
+        {
+            unsei: '大吉',
+            color: '#ddce35'
+        },
+        {
+            unsei: '中吉',
+            color: '#df84b5'
+        },
+        {
+            unsei: '小吉',
+            color: '#48c33d'
+        },
+        {
+            unsei: '凶',
+            color: '#af6710'
+        },
+        {
+            unsei: '大凶',
+            color: '#000000'
+        }
+    ];
+
+    /**
+     * おみくじ結果をランダムで返す
+     * @returns {{unsei: string,color: string}} unseiはおみくじ結果、colorは色のHEX値
+     */
+    function getOmikuji () {
+        return omikujis[Math.floor(Math.random() * omikujis.length)];
+    }
+
+    //表示名を宣言
+    let name = '';
+
+    //「おみくじをひく」ボタンクリックイベント
+    function drawOmikuji () {
+        //まずおみくじの結果と色を確定する
+        const omikuji = getOmikuji();
+        //HTML要素を取得
+        const elementName = document.getElementById('name');
+        const elementResult = document.getElementById('result');
+        const elementYourName = document.getElementById('yourName');
+        const elementUnsei = document.getElementById('unsei');
+        const elementSubmit = document.getElementById('submit');
+        //名前を上書き(空欄なら名無しさん)
+        name = elementName.value.length === 0 ? `ななし` : elementName.value;
+
+        /**
+         * おみくじを引き直す際に、elementName要素(名前の入力欄)がnullになることへの対策。
+         * これでも動作したが、elementNameを削除せずにhiddenにすることで不要になったのでコメントオフ
+         */
+        // if(elementName){
+        //     name = elementName.value.length === 0 ? `ななし` : elementName.value;
+        // }else{
+        // }
+
+        /**
+         * 当初、挨拶文とおみくじ結果の文章をp要素を作成して追加することを想定していたが、
+         * p要素の中の任意の位置にどうやってspan要素を挿入したらいいか、どーしてもわからず断念した。
+         * たぶんこれ調べるのに一番時間かかった。
+         */
+        //挿入する要素を作成
+        // const elementYourName = document.createElement('p');
+        // const elementYourResult = document.createElement('p');
+        // const elementSpan = document.createElement('span');
+
+        /**
+         * 当初、下記span要素のvalueプロパティに名前やおみくじ結果を代入していたが、表示に反映されず..代入はできているのになぜ？
+         * →textContentプロパティに代入したら表示された。ほな逆にspan要素のvalueプロパティてどういう時に使うんや..
+         */
+        //作成した要素の属性に、変数の値を代入
+        elementYourName.textContent = name;
+        elementUnsei.textContent = omikuji.unsei;
+        elementUnsei.style.color = omikuji.color;
+
+        /**
+         * 当初、送信ボタンを押したらelementName要素(名前の入力欄)を削除しようとしてました。
+         * innerHTMLに空文字代入しても消えなかったので(input要素はinnerに要素ないから)、outerHTML使おうと思ったらWebStormに警告されました。
+         * 調べ直してremove()メソッドにしたものの...
+         * 結局hiddenにして要素は削除せず残しました。
+         */
+        //elementName.outerHTML='';
+        //elementName.remove();
+        elementName.hidden = true;
+        elementResult.hidden = false;
+        elementSubmit.value = `もういちど引きなおす`;
+
+        //要素をHTMLに挿入、、しませんでした
+        // elementOmikuji.replaceChild(elementYourName, elementName);
+        // elementOmikuji.insertBefore(elementYourResult, elementSubmit);
+    }
+
+    // 出力例
+    // ![出力例1](assets/images/lesson06-05-01.png)
+    // ![出力例2](assets/images/lesson06-05-02.png)
+    //
+    //[答え](samples/lesson06/lesson06-06.html)
+</script>
+
+</body>
+
+</html>
