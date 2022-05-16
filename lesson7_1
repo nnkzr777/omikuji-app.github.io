@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_1</title>
+    <script>
+        // # レッスン7: イベントとフォーム
+        //
+        // ## 課題1
+        //
+        // レッスン6で作ったおみくじは、毎回リロードしないとおみくじが引けませんでした。
+        // 「おみくじを引く」というボタンを作り、ボタンを押すたびにおみくじが引けるようにしてみましょう。
+        // まずは、HTML内に`onclick="xxx()"`と書いて実装してみてください。
+        // ただし、`<script>`タグ(javascript)は、`</head>`の**直前**に書きます。
+        //
+        // 実行例
+        // ![実行例](assets/images/lesson07-01-01.png)
+        // ![実行例](assets/images/lesson07-01-02.png)
+        //
+        // [答え](samples/lesson07/lesson07-01.html)
+        const omikujis = [
+            {
+                unsei: '大吉',
+                color: '#ddce35'
+            },
+            {
+                unsei: '中吉',
+                color: '#df84b5'
+            },
+            {
+                unsei: '小吉',
+                color: '#48c33d'
+            },
+            {
+                unsei: '凶',
+                color: '#af6710'
+            },
+            {
+                unsei: '大凶',
+                color: '#000000'
+            }
+        ];
+
+        // /**
+        //  * 与えられた文字列をエスケープ処理する
+        //  * @param {string} str
+        //  * @returns {string}
+        //  */
+        // function escapeHTML (str) {
+        //     if (!str) {
+        //         return '';
+        //     }
+        //     str = str.replace(/&/g, '&amp;');
+        //     str = str.replace(/</g, '&lt;');
+        //     str = str.replace(/>/g, '&gt;');
+        //     str = str.replace(/"/g, '&quot;');
+        //     str = str.replace(/'/g, '&#39;');
+        //     return str;
+        // }
+        //
+        // /**
+        //  * タグつきテンプレート関数
+        //  * @param {string[]} strings テンプレート文字列
+        //  * @param {string} values エスケープする文字
+        //  * @returns {string}
+        //  */
+        // function tag (strings, ...values) {
+        //     let result = '';
+        //     for (let i = 0; i < strings.length; i++) {
+        //         result += strings[i] + escapeHTML(values[i]);
+        //     }
+        //     return result;
+        // }
+
+        /**
+         * 「おみくじを引く」のクリックイベント
+         */
+        function btnClick () {
+            //おみくじ結果を確定させる
+            const result = omikujis[Math.floor(Math.random() * omikujis.length)];
+
+            //HTML要素取得
+            const elementName = document.getElementById('name');
+            const elementForm = document.getElementById('form');
+
+            //表示させるメッセージのHTML要素を作成
+            const elementYourName = document.createElement('p');
+            const elementResultMessage = document.createElement('p');
+            const elementYourUnsei = document.createElement('span');
+
+            //作成した要素に値を代入
+            elementYourName.innerHTML = `こんにちは！${elementName.value}さん`;
+            elementYourUnsei.textContent = result.unsei;
+            elementYourUnsei.style.color = result.color;
+            elementResultMessage.innerHTML = `今日のあなたの運勢は、${elementYourUnsei.outerHTML}です`;
+
+            //HTMLに要素を挿入
+            elementName.hidden = true;
+            elementForm.innerHTML = "";
+            elementForm.appendChild(elementYourName);
+            elementForm.appendChild(elementResultMessage);
+        }
+    </script>
+</head>
+
+<body>
+<h1>おみくじ</h1>
+<div>
+    <input id="name" type="text" placeholder="お名前は？">
+    <input type="submit" value="おみくじを引く" onclick="btnClick();">
+</div>
+<div id="form"></div>
+<hr>
+<h3>かじゃりコメント</h3>
+<p>当初はhtml側に「こんにちは！～さん」のテンプレート書いてたんですけど、
+    headタグ内にscriptタグを埋め込むと名前の取得＆設定ができなくて、多分ページを読み込む順番だと思うけどどうしたら..？となって別の方法を取りました。
+    答えをみて、なるほどonloadイベントでを利用するのかー！と納得。いったんページの読み込みが終わってからなら読み込み可能なんですね。
+</p>
+<p>今までわからなかった「JavaScriptを使って、p要素の任意の場所にspan要素を挿入する」ですが、
+    p要素のinnerHTML内にspan要素のouterHTMLを埋め込むことで解決しました。コメントアウトしてあるタグつきテンプレート関数は、試行錯誤の名残です(別にエスケープ処理しなくてよかった)</p>
+</body>
+
+</html>
