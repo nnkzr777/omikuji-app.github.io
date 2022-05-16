@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_2</title>
+    <script>
+        // ## 課題2
+        //
+        // 課題1と同じものを、今度は、javascript内で`addEventListener`を使って実装してみてください。
+        // ただし、`<script>`タグ(javascript)は、`</head>`の**直前**に書きます。
+        //
+        // 実行例
+        // ![実行例](assets/images/lesson07-01-01.png)
+        // ![実行例](assets/images/lesson07-01-02.png)
+        //
+        // [答え](samples/lesson07/lesson07-02.html)
+        const omikujis = [
+            {
+                unsei: '大吉',
+                color: '#ddce35'
+            },
+            {
+                unsei: '中吉',
+                color: '#df84b5'
+            },
+            {
+                unsei: '小吉',
+                color: '#48c33d'
+            },
+            {
+                unsei: '凶',
+                color: '#af6710'
+            },
+            {
+                unsei: '大凶',
+                color: '#000000'
+            }
+        ];
+
+        /**
+         * 「おみくじを引く」のイベントリスナー
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            //ボタンクリック時に実行されるイベントリスナーを登録
+            document.getElementById('btn').addEventListener('click', () => {
+                //おみくじ結果を確定させる
+                const result = omikujis[Math.floor(Math.random() * omikujis.length)];
+
+                //HTML要素の取得
+                const elementName = document.getElementById('name');
+                const elementResult = document.getElementById('result');
+
+                //表示させるメッセージのHTML要素を作成
+                const elementYourName = document.createElement('p');
+                const elementResultMessage = document.createElement('p');
+                const elementYourUnsei = document.createElement('span');
+
+                //作成した要素に値を代入
+                elementYourName.innerHTML = `こんにちは！${elementName.value}さん`;
+                elementYourUnsei.textContent = result.unsei;
+                elementYourUnsei.style.color = result.color;
+                elementResultMessage.innerHTML = `今日のあなたの運勢は、${elementYourUnsei.outerHTML}です`;
+
+                //HTMLに要素を挿入
+                elementName.hidden = true;
+                elementResult.innerHTML = "";
+                elementResult.appendChild(elementYourName);
+                elementResult.appendChild(elementResultMessage);
+            });
+        });
+    </script>
+</head>
+
+<body>
+<h1>おみくじ</h1>
+<div>
+    <input id="name" type="text" placeholder="お名前は？">
+    <input id="btn" type="submit" value="おみくじを引く">
+</div>
+<div id="result"></div>
+<hr>
+<h3>コメント</h3>
+<p>form要素を使ってsubmitイベントにイベントリスナーを紐づけようと思ったけど、ページのリフレッシュが起こってしまい上手く動かせなかった..(結果が一瞬だけ表示されて消える)</p>
+<p>サーバーに送信するわけじゃないから、event.preventDefault()も使ってみたけど、思うように動かせず。結局form要素は使わず、送信ボタンにclickイベントを設定してクリアしたのでした。</p>
+</body>
+
+</html>
