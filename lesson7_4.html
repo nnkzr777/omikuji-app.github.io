@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_4</title>
+    <style>
+        ul#book-list {
+            list-style: none;
+        }
+
+        ul#book-list li {
+            border: 1px solid #808080;
+            width: 500px;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        ul#book-list li:hover {
+            background-color: #CECECE;
+        }
+    </style>
+</head>
+
+<body>
+<h1>lesson7_4</h1>
+<ul id="book-list"></ul>
+<script>
+    // ## 課題4
+    //
+    // レッスン6、課題1のHTMLにjavascriptを追加して、本をクリックしたときにコンソールに「クリックした」と表示してみましょう。
+    // クリックイベントは、HTMLに`onclick`を付加する方法で実装してください。
+    //
+    // ### ヒント
+    //
+    // * コンソールに「クリックした」と表示する関数を`disp`という名前で定義しましょう。
+    // * 複数の要素の`onclick`に、同一関数(disp)の実行を指定しても大丈夫です。
+    //
+    // 実行例
+    // ![実行例](assets/images/lesson07-04-01.png)
+    // ![実行例](assets/images/lesson07-04-02.png)
+    //
+    // [答え](samples/lesson07/lesson07-04.html)
+    function Book ({author, isbn13, title}) {
+        this.author = author;
+        this.isbn13 = isbn13;
+        this.title = title;
+    }
+
+    const books = [];
+    books.push(new Book({
+        author: '久保田 光則',
+        isbn13: '978-4774189673',
+        title: 'Webフロントエンド ハイパフォーマンス チューニング'
+    }));
+    books.push(new Book({
+        author: '仙塲 大也',
+        isbn13: '978-4297127831',
+        title: '良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方'
+    }));
+    books.push(new Book({
+        author: '上田 勲',
+        isbn13: '978-4798046143',
+        title: 'プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則'
+    }));
+    const elementBookList = document.getElementById('book-list');
+    books.forEach(book => {
+        const elementBookListItem = document.createElement('li');
+        elementBookListItem.innerHTML = book.title;
+        elementBookListItem.onclick = disp;
+        elementBookList.appendChild(elementBookListItem);
+    });
+
+    function disp () {
+        console.log("クリックされました");
+    }
+</script>
+<hr>
+<h3>コメント</h3>
+「クリックイベントは、HTMLに`onclick`を付加する方法で実装」とあったのですが、li要素をJavaScript側で作成して挿入するようにしていたので、 onClickプロパティにイベントハンドラーを代入するという方法を取りました。
+</body>
+
+</html>
