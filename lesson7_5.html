@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_5</title>
+    <style>
+        ul#book-list {
+            list-style: none;
+        }
+
+        ul#book-list li {
+            border: 1px solid #808080;
+            width: 500px;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        ul#book-list li:hover {
+            background-color: #CECECE;
+        }
+    </style>
+
+</head>
+
+<body>
+<h1>lesson7_5</h1>
+<ul id="book-list">
+    <li onclick="disp(0);">Webフロントエンド ハイパフォーマンス チューニング</li>
+    <li onclick="disp(1);">良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方</li>
+    <li onclick="disp(2);">プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則</li>
+</ul>
+<script>
+    // ## 課題5
+    //
+    // 課題4の出力では、何番目の本がクリックされたかわかりません。
+    // `disp`関数の引数に「何番目か」を表す`index`を定義し、`onclick`の中で呼び出すときに、引数に番号を渡してあげましょう。
+    // 例えば、1番目の本をクリックしたときには、`disp(1)`が実行されるようにします。
+    // **注意： indexは0から数えてください。**
+    //
+    // 実行例
+    // ![実行例1](assets/images/lesson07-05-01.png)
+    // ![実行例2](assets/images/lesson07-05-02.png)
+    // ![実行例3](assets/images/lesson07-05-03.png)
+    //
+    // [答え](samples/lesson07/lesson07-05.html)
+
+    function disp (index) {
+        console.log(`${index}番目の本がクリックされました`);
+    }
+</script>
+<hr>
+<h3>コメント</h3>
+<p>JavaScriptのonclickプロパティには関数名(disp(XXX)じゃなくてdisp)しか代入できなかったので、HTMLを書き直してonclick属性に引数付きのメソッド呼び出しを書きました。</p>
+<p>でもきっと、onclickプロパティに引数付きの関数を渡す方法もあるんだよなぁ...(かじゃり)</p>
+</body>
+
+</html>
