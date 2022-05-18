@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_7</title>
+    <style>
+        #book-list {
+            list-style: none;
+        }
+
+        #book-list li, #selected-book {
+            border: 1px solid #808080;
+            width: 500px;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        #book-list li:hover {
+            background-color: #CECECE;
+        }
+
+        #selected-book h3 {
+            text-align: center;
+        }
+
+        #selected-book {
+            margin-left: 50px;
+        }
+    </style>
+    <script>
+        // ## 課題7
+        //
+        // タイトルリストでクリックされた本の詳細を、画面下部に表示しましょう。
+        // 選択された本の詳細を表示するエリアは、以下のようにマークアップしましょう。
+        //
+        // ```html
+        // <h2>選択された本の詳細</h2>
+        // <div id="selected-book">
+        // <h3 id="book-title"></h3>
+        // <div id="info">
+        // <p>著者: <span id="book-author"></span></p>
+        // <p>isbn13: <span id="book-isbn13"></span></p>
+        // </div>
+        // </div>
+        // ```
+        //
+        // ### ヒント
+        //
+        // * クリックされた本が何番目かは`index`でわかります。
+        // * `#selected-book`に当たるCSSは`<li>`と同じです。複数要素に同じCSSを当てたい要素は、CSS内で、`要素, 要素`とカンマ区切りで並べて書くことができます。
+        // * `#selected-book`は`<li>`と違って左側にマージンが取られません。`#selected-book`にCSS`margin-left: 50px;`を追加しましょう。
+        // * 本のタイトルを中央揃えにするため、`#selected-book h3`にCSS`text-align: center;`を追加しましょう。
+        //
+        // 実行例
+        // ![実行例](assets/images/lesson07-07-01.png)
+        // ![実行例](assets/images/lesson07-07-02.png)
+        //
+        // [答え](samples/lesson07/lesson07-07.html)
+        function Book({author, isbn13, title}) {
+            this.author = author;
+            this.isbn13 = isbn13;
+            this.title = title;
+        }
+
+        const books = [];
+        books.push(new Book({
+            author: '久保田 光則',
+            isbn13: '978-4774189673',
+            title: 'Webフロントエンド ハイパフォーマンス チューニング'
+        }));
+        books.push(new Book({
+            author: '仙塲 大也',
+            isbn13: '978-4297127831',
+            title: '良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方'
+        }));
+        books.push(new Book({
+            author: '上田 勲',
+            isbn13: '978-4798046143',
+            title: 'プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則'
+        }));
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const elementBookList = document.getElementById('book-list');
+            for (let i = 0; i < books.length; i++) {
+                const elementBookListItem = document.createElement('li');
+                elementBookListItem.innerHTML = books[i].title;
+                elementBookListItem.setAttribute('onclick', `disp(${i})`);
+                elementBookList.appendChild(elementBookListItem);
+            }
+        });
+
+        function disp(i) {
+            const bookTitle = document.getElementById('book-title');
+            bookTitle.innerHTML = books[i].title;
+            const bookAuthor = document.getElementById('book-author');
+            bookAuthor.innerHTML = books[i].author;
+            const bookIsbn = document.getElementById('book-isbn13');
+            bookIsbn.innerHTML = books[i].isbn13;
+        }
+    </script>
+</head>
+
+<body>
+<h1>本のリスト</h1>
+<ul id="book-list"></ul>
+<h2>選択された本の詳細</h2>
+<div id="selected-book">
+    <h3 id="book-title"></h3>
+    <div id="info">
+        <p>著者: <span id="book-author"></span></p>
+        <p>isbn13: <span id="book-isbn13"></span></p>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>CSSをどの順番で適用したらいいか考えながらやりました..ほぼ解答例に合わせられたと思います。</p>
+</body>
+
+</html>
