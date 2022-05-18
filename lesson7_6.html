@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_6</title>
+    <style>
+        ul#book-list {
+            list-style: none;
+        }
+
+        ul#book-list li {
+            border: 1px solid #808080;
+            width: 500px;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        ul#book-list li:hover {
+            background-color: #CECECE;
+        }
+    </style>
+    <script>
+        // ## 課題6
+        //
+        // **難問です。わからなければ遠慮せず答えを見て、先に進んでください。**
+        //
+        // 課題5では、直接HTMLに`<li>`要素を書き込んでいます。
+        // レッスン6の課題7をコピーして、これと同じようにjavascriptの中で`<li>`要素を追加し、
+        // なおかつ、上記課題5までと同じような動きになるように書き換えてみましょう。
+        // ただし、`<script>`タグ(javascript)は、`</head>`の**直前**に書きます。
+        //
+        // `onclick`属性は、javascriptからも、以下のようにして設定することができます。
+        // （addEventListenerは引数を渡すのがとても難しいので、この方法を使います）
+        //
+        // `onclick="disp(1)"`のようにしたいとき
+        //
+        // ```
+        // <要素>.setAttribute('onclick', 'disp(1)');
+        // ```
+        //
+        // ### ヒント
+        //
+        // * `for...of`を使うと`index`が取れないので、`for(let i = 0; i < books.length; i++) {}`を使いましょう。
+        // * 本が3冊あるとき、`disp(1)`の`1`のところには、`0~2`の数字が入りますね。
+        //
+        // 実行例
+        // ![実行例1](assets/images/lesson07-05-01.png)
+        // ![実行例2](assets/images/lesson07-05-02.png)
+        // ![実行例3](assets/images/lesson07-05-03.png)
+        //
+        // [答え](samples/lesson07/lesson07-06.html)
+        function Book({author, isbn13, title}) {
+            this.author = author;
+            this.isbn13 = isbn13;
+            this.title = title;
+        }
+
+        const books = [];
+        books.push(new Book({
+            author: '久保田 光則',
+            isbn13: '978-4774189673',
+            title: 'Webフロントエンド ハイパフォーマンス チューニング'
+        }));
+        books.push(new Book({
+            author: '仙塲 大也',
+            isbn13: '978-4297127831',
+            title: '良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方'
+        }));
+        books.push(new Book({
+            author: '上田 勲',
+            isbn13: '978-4798046143',
+            title: 'プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則'
+        }));
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const elementBookList = document.getElementById('book-list');
+            for (let i = 0; i < books.length; i++) {
+                const elementBookListItem = document.createElement('li');
+                elementBookListItem.innerHTML = books[i].title;
+                elementBookListItem.setAttribute('onclick', `disp(${i})`);
+                elementBookList.appendChild(elementBookListItem);
+            }
+        });
+
+        function disp(i) {
+            console.log(`${i}番目の要素がクリックされました`);
+        }
+    </script>
+</head>
+
+<body>
+<h1>lesson7_6</h1>
+<ul id="book-list"></ul>
+<hr>
+<h3>コメント</h3>
+<p>結局lesson7_5での疑問、「onclickプロパティに引数付きの関数を渡す方法」と対峙することとなりましたｗ</p>
+<p>setAttributeメソッドを使えば、文字列としてメソッドを渡すことができるんですね..!なるほどー</p>
+</body>
+
+</html>
