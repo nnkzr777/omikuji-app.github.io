@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_8</title>
+    <style>
+        #book-list {
+            list-style: none;
+        }
+
+        #book-list li, #selected-book, #add {
+            width: 500px;
+            border: solid 1px #808080;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        #book-list li:hover {
+            background-color: #CECECE;
+        }
+
+        #selected-book, #add {
+            margin-left: 50px;
+        }
+
+        #selected-book h3 {
+            text-align: center;
+        }
+
+        #add {
+            text-align: center;
+        }
+
+        #add table {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // ## 課題8
+        //
+        // 本棚アプリに本を追加する機能をつけましょう。 -- 第1段階
+        //
+        // 1. 本の各情報の入力欄を作ります。
+        // 2. 「追加」ボタンを用意します。
+        // 3. 「追加」ボタンを押すと、その情報で本のオブジェクトを生成します。
+        // 4. 生成されたオブジェクトを、コンソールに表示しましょう。
+        // 5. HTML、CSSは下記のように書きましょう。
+        //
+        // HTML:
+        // ```html
+        // <h1>本棚</h1>
+        // <h2>リストに追加</h2>
+        // <div id="add">
+        // <table>
+        // <tr>
+        // <td>
+        // <label for="input-title">タイトル：</label>
+        // </td>
+        // <td>
+        // <input type="text" id="input-title">
+        // </td>
+        // </tr>
+        // <tr>
+        // <td>
+        // <label for="input-author">著者：</label>
+        // </td>
+        // <td>
+        // <input type="text" id="input-author">
+        // </td>
+        // </tr>
+        // <tr>
+        // <td>
+        // <label for="input-isbn13">isbn13：</label>
+        // </td>
+        // <td>
+        // <input type="text" id="input-isbn13">
+        // </td>
+        // </tr>
+        // </table>
+        // <button id="add-button" onclick="add()">追加</button>
+        // </div>
+        //
+        // <h2>一覧</h2>
+        // <ul id="book-list"></ul>
+        //
+        // <h2>選択された本の詳細</h2>
+        // ・・・以下省略
+        // ```
+        //
+        // CSS:
+        // ```css
+        // #book-list {
+        // list-style: none;
+        // }
+        //
+        // #book-list li, #selected-book, #add {
+        // width: 500px;
+        // border: solid 1px #808080;
+        // border-radius: 0.5em;
+        // margin: 10px;
+        // padding: 1em;
+        // }
+        //
+        // #book-list li:hover {
+        // background-color: #CECECE;
+        // }
+        //
+        // #selected-book, #add {
+        // margin-left: 50px;
+        // }
+        //
+        // #selected-book h3 {
+        // text-align: center;
+        // }
+        //
+        // #add {
+        // text-align: center;
+        // }
+        //
+        // #add table {
+        // margin-bottom: 20px;
+        // }
+        // ```
+        //
+        // ### ヒント
+        //
+        // * `addBook`という関数を用意しましょう。
+        // * `.value`や、`onclick`をフル活用します。
+        //
+        // 実行例
+        // ![実行例](assets/images/lesson07-08-01.png)
+        // ![実行例](assets/images/lesson07-08-02.png)
+        //
+        // [答え](samples/lesson07/lesson07-08.html)
+        function Book({author, isbn13, title}) {
+            this.author = author;
+            this.isbn13 = isbn13;
+            this.title = title;
+        }
+
+        const books = [];
+
+        function addBook({author, isbn13, title}) {
+            const book = new Book({
+                author: author,
+                isbn13: isbn13,
+                title: title,
+            });
+            books.push(book);
+            return book;
+        }
+
+        function add() {
+            const elementInputTitle = document.getElementById('input-title');
+            const elementInputAuthor = document.getElementById('input-author');
+            const elementInputIsbn13 = document.getElementById('input-isbn13');
+            const book = addBook({
+                author: elementInputAuthor.value,
+                isbn13: elementInputIsbn13.value,
+                title: elementInputTitle.value,
+            });
+            console.log(book);
+        }
+    </script>
+</head>
+
+<body>
+<h1>本棚</h1>
+<h2>リストに追加</h2>
+<div id="add">
+    <table>
+        <tr>
+            <td>
+                <label for="input-title">タイトル：</label>
+            </td>
+            <td>
+                <input type="text" id="input-title">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-author">著者：</label>
+            </td>
+            <td>
+                <input type="text" id="input-author">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-isbn13">isbn13：</label>
+            </td>
+            <td>
+                <input type="text" id="input-isbn13">
+            </td>
+        </tr>
+    </table>
+    <button id="add-button" onclick="add()">追加</button>
+</div>
+</body>
+
+</html>
