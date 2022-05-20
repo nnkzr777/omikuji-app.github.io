@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson7_9</title>
+    <style>
+        #book-list {
+            list-style: none;
+        }
+
+        #book-list li, #selected-book, #add {
+            width: 500px;
+            border: solid 1px #808080;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        #book-list li:hover {
+            background-color: #CECECE;
+        }
+
+        #selected-book, #add {
+            margin-left: 50px;
+        }
+
+        #selected-book h3 {
+            text-align: center;
+        }
+
+        #add {
+            text-align: center;
+        }
+
+        #add table {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // ## 課題9
+        //
+        // 本棚アプリに本を追加する機能をつけましょう。 -- 第2段階
+        //
+        // 課題8で入力した内容をオブジェクトにするところまでできました。
+        // オブジェクト配列`books`に入力した本のオブジェクトを追加しましょう。
+        // 配列に本を追加しても、表示は変わりません。
+        // 表示を更新するために、関数`refresh()`を呼びましょう。
+        // `window.onload`内に書いていた内容を関数`refresh()`として切り出します。
+        // リスト表示を一度クリアするには、`<ul要素>.innerHTML = '':`を使います。
+        //
+        // 実行例
+        // ![実行例](assets/images/lesson07-09-01.png)
+        //
+        // [答え](samples/lesson07/lesson07-09.html)
+
+        function Book({author, isbn13, title}) {
+            this.author = author;
+            this.isbn13 = isbn13;
+            this.title = title;
+        }
+
+        const books = [];
+        books.push(new Book({
+            author: '久保田 光則',
+            isbn13: '978-4774189673',
+            title: 'Webフロントエンド ハイパフォーマンス チューニング'
+        }));
+        books.push(new Book({
+            author: '仙塲 大也',
+            isbn13: '978-4297127831',
+            title: '良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方'
+        }));
+        books.push(new Book({
+            author: '上田 勲',
+            isbn13: '978-4798046143',
+            title: 'プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則'
+        }));
+
+        document.addEventListener("DOMContentLoaded", () => refresh());
+
+        /**
+         * 追加ボタンをクリックしたときのイベントハンドラー
+         */
+        function add() {
+            const elements = getElements();
+            //空欄チェック
+            for (const element of elements.values()) {
+                if (element.value.length === 0) {
+                    window.alert("タイトル、著者、isbn13の項目は全て入力必須です");
+                    return;
+                }
+            }
+            //↑for..ofはいけるのに、なぜ↓forEachだとreturnが無視されるのかわからない..
+            //returnが無視されて、ループは止まらない＆以降のステートメントも処理されてしまう。
+            // elements.forEach(value => {
+            //     if (value.value.length === 0) {
+            //         window.alert("タイトル、著者、isbn13の項目は全て入力必須です");
+            //         return;
+            //     }
+            // });
+            addBook({
+                author: elements.get('author').value,
+                isbn13: elements.get('isbn13').value,
+                title: elements.get('title').value,
+            });
+            refresh();
+        }
+
+        /**
+         * 本をBooks配列に追加します
+         * @param {string} author
+         * @param {string} isbn13
+         * @param {string} title
+         * @returns {Book}
+         */
+        function addBook({author, isbn13, title}) {
+            const book = new Book({
+                author: author,
+                isbn13: isbn13,
+                title: title,
+            });
+            books.push(book);
+        }
+
+        /**
+         * クリックされた本の詳細を表示します
+         * @param {number} index
+         */
+        function disp(index) {
+            //console.log(`${index}番目がクリックされました`); 動作チェック用
+            const bookTitle = document.getElementById('book-title');
+            bookTitle.innerHTML = books[index].title;
+            const bookAuthor = document.getElementById('book-author');
+            bookAuthor.innerHTML = books[index].author;
+            const bookIsbn = document.getElementById('book-isbn13');
+            bookIsbn.innerHTML = books[index].isbn13;
+        }
+
+        /**
+         * ユーザーが入力したinput要素をMapで取得する
+         * @returns {Map<string, HTMLElement>}
+         */
+        function getElements() {
+            const elements = new Map();
+            elements.set('title', document.getElementById('input-title'));
+            elements.set('author', document.getElementById('input-author'));
+            elements.set('isbn13', document.getElementById('input-isbn13'));
+            return elements;
+        }
+
+        /**
+         * 本の一覧表を更新し、テキストボックスを空にする
+         */
+        function refresh() {
+            const elementBookList = document.getElementById('book-list');
+            elementBookList.innerHTML = '';
+            books.forEach((book, index) => {
+                const elementBook = document.createElement('li');
+                elementBook.innerHTML = book.title;
+                elementBook.setAttribute('onclick', `disp(${index})`);
+                elementBookList.appendChild(elementBook);
+            });
+            getElements().forEach((value) => {
+                value.value = '';
+            });
+        }
+
+    </script>
+</head>
+
+<body><h1>本棚</h1>
+<h2>リストに追加</h2>
+<div id="add">
+    <table>
+        <tr>
+            <td>
+                <label for="input-title">タイトル：</label>
+            </td>
+            <td>
+                <input type="text" id="input-title">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-author">著者：</label>
+            </td>
+            <td>
+                <input type="text" id="input-author">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-isbn13">isbn13：</label>
+            </td>
+            <td>
+                <input type="text" id="input-isbn13">
+            </td>
+        </tr>
+    </table>
+    <button id="add-button" onclick="add()">追加</button>
+</div>
+
+<h2>一覧</h2>
+<ul id="book-list"></ul>
+<h2>選択された本の詳細</h2>
+<div id="selected-book">
+    <h3 id="book-title"></h3>
+    <div id="info">
+        <p>著者: <span id="book-author"></span></p>
+        <p>isbn13: <span id="book-isbn13"></span></p>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>テキストボックスに空欄があったらadd関数を中断しようと思ったんですね。</p>
+<p>で、テキストボックスの要素たちをマップオブジェクトの配列にして、１つ１つの要素に対して反復処理メソッドでif文判定をしようと思ったんですよ。</p>
+<p>すると、for..of文では意図したとおりに動作したんですけど、forEachだとreturn文が無視されちゃって上手くいかないんですねこれが。</p>
+<p>for..of文ではelements.values()(イテレーターオブジェクトを返す)に対して反復処理を実施し、<br>
+forEachではelements(Mapオブジェクトの配列)に対して反復処理を実施しています。(コールバック関数の引数にはMapのvalueを指定できるようなのでそうしました)</p>
+</body>
+
+</html>
