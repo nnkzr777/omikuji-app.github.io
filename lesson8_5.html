@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <title>lesson7_9</title>
+    <head>
+        <meta charset="utf-8"/>
+        <title>lesson7_5</title>
+        <style>
+            ul#book-list {
+                list-style: none;
+            }
+
+            ul#book-list li {
+                border: 1px solid #808080;
+                width: 500px;
+                border-radius: 0.5em;
+                margin: 10px;
+                padding: 1em;
+            }
+
+            ul#book-list li:hover {
+                background-color: #CECECE;
+            }
+
+            .d-flex {
+                display: flex; /*子要素を横並びにする*/
+                justify-content: space-between; /*子要素は間に等分のスペースを取る*/
+            }
+
+            .book-title {
+                margin-right: 2rem;
+            }
+        </style>
+
+    </head>
+    <script>
+        // ## 課題5
+        //
+        // リストの中に削除アイコンを表示するためのHTMLを作成しましょう。
+        //
+        // 1. レッスン7課題5のコードをコピーします。
+        // 2. `li`要素の中を膨らませます。`li`直下に`div`要素を作成し、`div`直下に2つの`span`を置きます。
+        // 3. 1つ目の`span`は、タイトルを入れます。2つめの`span`には削除アイコンを入れます。
+        // 4. 削除アイコンは、`<i class="fas fa-trash"></i>`とマークアップします。
+        // 5. 削除アイコンをクリックすると、`remove(index)`という関数が実行されます。indexは0~2の数字です。関数も定義してください。中身は「index番目の本を削除します」というコンソール表示のみでOKです。
+        // 6. アイコンを表示するための「Font Awesome」というライブラリを読み込みます。`head`内に以下のコードを挿入します。
+        //
+        // ```html
+        // <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        // ```
+        //
+        // 「Font Awesome」ライブラリの詳しい説明は、[ここ](https://dev.to/weeb/font-awesome-guide-and-useful-tricks-you-might-ve-not-known-about-until-now-o15)あたりを読むといいでしょう。
+        // アイコン一覧は[ここ](https://fontawesome.com/icons?d=gallery&m=free)にあります。`delete`で検索してみましょう。
+        //
+        // 次に、レイアウトを整えます。
+        //
+        // まず、`div`要素に`d-flex`というclassをつけて、そのクラスを使ってCSSをあてましょう。
+        // `div`の中で要素を横並びにするには、`div`要素に次のようなCSSをあてます。
+        //
+        // ```css
+        // .d-flex {
+        // display: flex; /* 子要素を横並びにする */
+        // justify-content: space-between; /* 子要素は間に等分のスペースを取る */
+        // }
+        // ```
+        //
+        // タイトル部がゴミ箱のアイコンと近すぎるので、タイトルの右側に2文字ぶんのマージンを取りましょう。
+        // タイトル部（1つめの`span`）には、`book-title`というクラスをつけましょう。
+        //
+        // ```css
+        // .book-title {
+        // margin-right: 2rem;
+        // }
+        // ```
+        //
+        // 実行例
+        // ![実行例1](assets/images/lesson08-05-01.png)
+        // ![実行例2](assets/images/lesson08-05-02.png)
+        // ![実行例3](assets/images/lesson08-05-03.png)
+        //
+        // [答え](samples/lesson08/lesson08-05.html)
+        // ## 課題5
+        //
+        // 課題4の出力では、何番目の本がクリックされたかわかりません。
+        // `disp`関数の引数に「何番目か」を表す`index`を定義し、`onclick`の中で呼び出すときに、引数に番号を渡してあげましょう。
+        // 例えば、1番目の本をクリックしたときには、`disp(1)`が実行されるようにします。
+        // **注意： indexは0から数えてください。**
+        //
+        // 実行例
+        // ![実行例1](assets/images/lesson07-05-01.png)
+        // ![実行例2](assets/images/lesson07-05-02.png)
+        // ![実行例3](assets/images/lesson07-05-03.png)
+        //
+        // [答え](samples/lesson07/lesson07-05.html)
+
+        function disp(index) {
+            console.log(`${index}番目の本がクリックされました`);
+        }
+
+        /**
+         *
+         * @param {number} index
+         */
+        function remove(index) {
+            console.log(`${index}番目の本を削除します`);
+        }
+    </script>
+</head>
+
+<body>
+<h1>lesson8_5</h1>
+<ul id="book-list">
+    <li onclick="disp(0);">
+        <div class="d-flex">
+            <span class="book-title">Webフロントエンド ハイパフォーマンス チューニング</span>
+            <span onclick="remove(0)"><i class="fas fa-trash"></i></span>
+        </div>
+    </li>
+    <li onclick="disp(1);">
+        <div class="d-flex">
+            <span class="book-title">良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方</span>
+            <span onclick="remove(1)"><i class="fas fa-trash"></i></span>
+        </div>
+    </li>
+    <li onclick="disp(2);">
+        <div class="d-flex">
+            <span class="book-title">プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則</span>
+            <span onclick="remove(2)"><i class="fas fa-trash"></i></span>
+        </div>
+    </li>
+</ul>
+<hr>
+<h3>コメント</h3>
+<p>外部から読み込んで使えるアイコンが使えるんですねー</p>
+</body>
+
+</html>
