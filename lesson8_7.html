@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <title>lesson8_6</title>
+    <style>
+        #book-list {
+            list-style: none;
+        }
+
+        #book-list li, #selected-book, #add {
+            width: 500px;
+            border: solid 1px #808080;
+            border-radius: 0.5em;
+            margin: 10px;
+            padding: 1em;
+        }
+
+        #book-list li:hover {
+            background-color: #CECECE;
+        }
+
+        #selected-book, #add {
+            margin-left: 50px;
+        }
+
+        #selected-book h3 {
+            text-align: center;
+        }
+
+        #add {
+            text-align: center;
+        }
+
+        #add table {
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .d-flex {
+            display: flex; /*子要素を横並びにする*/
+            justify-content: space-between; /*子要素は間に等分のスペースを取る*/
+        }
+
+        .book-title {
+            margin-right: 2rem;
+        }
+    </style>
+    <script>
+        // ## 課題7
+        //
+        // `remove`関数の中身を実装して、実際に本が削除できるようにしましょう。
+        //
+        // 実行例
+        // ![lesson08-07-01](assets/movgif/lesson08-07-01.gif)
+        //
+        //
+        // ### ヒント
+        //
+        // * クリックされた本が何番目かは`index`でわかります。
+        // * 配列からindex番目の要素を削除するには、`配列.splice(index, 1)`と書きます。
+        //
+        // [答え](samples/lesson08/lesson08-07.html)
+        /**
+         * 入力チェック
+         * @returns {boolean}
+         */
+        function validate() {
+            const elements = getElements();
+            document.getElementById('error-title').innerHTML = '';
+            document.getElementById('error-author').innerHTML = '';
+            if (elements.get('title').value.length === 0) {
+                document.getElementById('error-title').innerHTML = 'タイトルが空です';
+                document.getElementById('add-button').setAttribute('disabled', 'true');
+                return false;
+            }
+            if (elements.get('author').value.length === 0) {
+                document.getElementById('error-author').innerHTML = '著者が空です';
+                document.getElementById('add-button').setAttribute('disabled', 'true');
+                return false;
+            }
+            document.getElementById('add-button').removeAttribute('disabled');
+        }
+
+        function Book({author, isbn13, title}) {
+            this.author = author;
+            this.isbn13 = isbn13;
+            this.title = title;
+        }
+
+        const books = [];
+        books.push(new Book({
+            author: '久保田 光則',
+            isbn13: '978-4774189673',
+            title: 'Webフロントエンド ハイパフォーマンス チューニング'
+        }));
+        books.push(new Book({
+            author: '仙塲 大也',
+            isbn13: '978-4297127831',
+            title: '良いコード/悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方'
+        }));
+        books.push(new Book({
+            author: '上田 勲',
+            isbn13: '978-4798046143',
+            title: 'プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則'
+        }));
+
+        document.addEventListener("DOMContentLoaded", () => refresh());
+
+        /**
+         * 追加ボタンをクリックしたときのイベントハンドラー
+         */
+        function add() {
+            const elements = getElements();
+            addBook({
+                author: elements.get('author').value,
+                isbn13: elements.get('isbn13').value,
+                title: elements.get('title').value,
+            });
+            refresh();
+        }
+
+        /**
+         * 本をBooks配列に追加します
+         * @param {string} author
+         * @param {string} isbn13
+         * @param {string} title
+         * @returns {Book}
+         */
+        function addBook({author, isbn13, title}) {
+            const book = new Book({
+                author: author,
+                isbn13: isbn13,
+                title: title,
+            });
+            books.push(book);
+        }
+
+        /**
+         * クリックされた本の詳細を表示します
+         * @param {number} index
+         */
+        function disp(index) {
+            //console.log(`${index}番目がクリックされました`); 動作チェック用
+            const bookTitle = document.getElementById('book-title');
+            bookTitle.innerHTML = books[index].title;
+            const bookAuthor = document.getElementById('book-author');
+            bookAuthor.innerHTML = books[index].author;
+            const bookIsbn = document.getElementById('book-isbn13');
+            bookIsbn.innerHTML = books[index].isbn13;
+        }
+
+        /**
+         * ユーザーが入力したinput要素をMapで取得する
+         * @returns {Map<string, HTMLElement>}
+         */
+        function getElements() {
+            const elements = new Map();
+            elements.set('title', document.getElementById('input-title'));
+            elements.set('author', document.getElementById('input-author'));
+            elements.set('isbn13', document.getElementById('input-isbn13'));
+            return elements;
+        }
+
+        /**
+         * 本の一覧表を更新し、テキストボックスを空にする
+         */
+        function refresh() {
+            const elementBookList = document.getElementById('book-list');
+            elementBookList.innerHTML = '';
+            books.forEach((book, index) => {
+                // li要素作成
+                const elementBook = document.createElement('li');
+                elementBook.setAttribute('onclick', `disp(${index})`);
+                // div要素作成
+                const elementDiv = document.createElement('div');
+                elementDiv.className = 'd-flex';
+                // span要素1作成
+                const elementSpan1 = document.createElement('span');
+                elementSpan1.className = 'book-title';
+                elementSpan1.innerHTML = book.title;
+                // span要素2作成
+                const elementSpan2 = document.createElement('span');
+                elementSpan2.setAttribute('onclick', `remove(${index})`);
+                // i要素作成
+                const elementI = document.createElement('i');
+                elementI.className = 'fas fa-trash';
+                // 要素を入れ子にする
+                elementSpan2.appendChild(elementI);
+                elementDiv.appendChild(elementSpan1);
+                elementDiv.appendChild(elementSpan2);
+                elementBook.appendChild(elementDiv);
+                elementBookList.appendChild(elementBook);
+            });
+            getElements().forEach((value) => {
+                value.value = '';
+            });
+            document.getElementById('add-button').setAttribute('disabled', 'true');
+        }
+
+        /**
+         * 削除ボタンが押された本を一覧から削除する
+         * @param {number} index
+         */
+        function remove(index) {
+            books.splice(index, 1);
+            refresh();
+        }
+
+    </script>
+</head>
+
+<body>
+<h1>lesson8_7</h1>
+<h1>本棚</h1>
+<h2>リストに追加</h2>
+<div id="add">
+    <table>
+        <tr>
+            <td>
+                <label for="input-title">タイトル：</label>
+            </td>
+            <td>
+                <input type="text" id="input-title" onchange="validate()">
+            </td>
+            <td class="error"><span id="error-title"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-author">著者：</label>
+            </td>
+            <td>
+                <input type="text" id="input-author" onchange="validate()">
+            </td>
+            <td class="error"><span id="error-author"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-isbn13">isbn13：</label>
+            </td>
+            <td>
+                <input type="text" id="input-isbn13">
+            </td>
+        </tr>
+    </table>
+    <button id="add-button" onclick="add()" disabled>追加</button>
+</div>
+<h2>一覧</h2>
+<ul id="book-list"></ul>
+<h2>選択された本の詳細</h2>
+<div id="selected-book">
+    <h3 id="book-title"></h3>
+    <div id="info">
+        <p>著者: <span id="book-author"></span></p>
+        <p>isbn13: <span id="book-isbn13"></span></p>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>書き換えるところがピンポイントだったのですぐにできて嬉しい！</p>
+</body>
+
+</html>
