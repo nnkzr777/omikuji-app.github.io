@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson9_1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js">
+        // # レッスン9: 外部ファイル・ライブラリとjQuery
+        //
+        // このレッスンでは、CSSとjavascriptの外部ファイル化と、有名なライブラリであるjQueryについて学びます。
+        //
+        // ## 課題1
+        //
+        // レッスン8で作り上げた本棚アプリを整理しましょう。
+        //
+        // CSS部分を抜き出して、`styles.css`ファイルにします。
+        // javascript部分を抜き出して、`main.js`ファイルにします。
+        // また、HTMLファイルは、`index.html`という名前にします。
+        //
+        // これらのファイルを`lesson09-01`というフォルダに入れます。
+        //
+        // `index.html`に`styles.css`と`main.js`を呼び出すコード（タグ）を書きます。
+        //
+        // `index.html`をブラウザで表示して、問題なく動くことを確認します。
+        //
+        // ### 実行例
+        // ![実行例](assets/images/lesson09-01-01.png)
+        //
+        // [答え](samples/lesson09/lesson09-01)
+    </script>
+
+</head>
+
+<body>
+<h1>lesson9_1</h1>
+<h1>本棚</h1>
+<h2>リストに追加</h2>
+<div id="add">
+    <table>
+        <tr>
+            <td>
+                <label for="input-title">タイトル：</label>
+            </td>
+            <td>
+                <input type="text" id="input-title" onchange="validate()">
+            </td>
+            <td class="error"><span id="error-title"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-author">著者：</label>
+            </td>
+            <td>
+                <input type="text" id="input-author" onchange="validate()">
+            </td>
+            <td class="error"><span id="error-author"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-isbn13">isbn13：</label>
+            </td>
+            <td>
+                <input type="text" id="input-isbn13">
+            </td>
+        </tr>
+    </table>
+    <button id="add-button" onclick="add()" disabled>追加</button>
+</div>
+<h2>一覧</h2>
+<ul id="book-list"></ul>
+<h2>選択された本の詳細</h2>
+<div id="selected-book">
+    <h3 id="book-title"></h3>
+    <div id="info">
+        <p>著者: <span id="book-author"></span></p>
+        <p>isbn13: <span id="book-isbn13"></span></p>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>あれっ実行しても何も表示されないし、JS側で「main.js:107 Uncaught TypeError: Cannot set properties of null」ってエラーが出るぞ？？と思ってアワアワしてたら、<br>
+    何のことはないhtmlの中身をコピーし忘れてただけでした。</p>
+</body>
+
+</html>
