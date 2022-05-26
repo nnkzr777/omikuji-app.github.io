@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson9_2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="main.js">
+        // ## 課題2
+        //
+        // jQueryを導入しましょう。
+        //
+        // jQueryは、DOMを操作することに長けたjavascriptライブラリです。
+        // ダウンロードして簡単に使うことができます。
+        //
+        // `lesson09-01`フォルダをコピーして、`lesson09-02`フォルダを作ります。
+        // [こちら](https://jquery.com/download/)から`compressed`をダウンロードして、`lesson09-02`フォルダに入れます。
+        //
+        // `index.html`にjQueryを読み込むコード（タグ）を書き、`index.html`と`main.js`を以下のように変更します。
+        //
+        // ```html
+        // <!-- 略 -->
+        // <body>
+        // <p id="box"></p> <!-- この行を追加 -->
+        // <h1>本棚</h1>
+        // <!-- 略 -->
+        // ```
+        //
+        // ```javascript
+        // // ・・・略・・・
+        //
+        // // 以下の3行を追加
+        // $(() => {
+        // $('#box').html('jQueryを使っています');
+        // });
+        //
+        // window.onload = () => {
+        // refresh();
+        // };
+        // ```
+        //
+        // ### 実行例
+        // ![実行例](assets/images/lesson09-02-01.png)
+        //
+        // [答え](samples/lesson09/lesson09-02)
+    </script>
+
+</head>
+
+<body>
+<p id="box"></p>
+<h1>lesson9_2</h1>
+<h1>本棚</h1>
+<h2>リストに追加</h2>
+<div id="add">
+    <table>
+        <tr>
+            <td>
+                <label for="input-title">タイトル：</label>
+            </td>
+            <td>
+                <input type="text" id="input-title" onchange="validate()">
+            </td>
+            <td class="error"><span id="error-title"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-author">著者：</label>
+            </td>
+            <td>
+                <input type="text" id="input-author" onchange="validate()">
+            </td>
+            <td class="error"><span id="error-author"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input-isbn13">isbn13：</label>
+            </td>
+            <td>
+                <input type="text" id="input-isbn13">
+            </td>
+        </tr>
+    </table>
+    <button id="add-button" onclick="add()" disabled>追加</button>
+</div>
+<h2>一覧</h2>
+<ul id="book-list"></ul>
+<h2>選択された本の詳細</h2>
+<div id="selected-book">
+    <h3 id="book-title"></h3>
+    <div id="info">
+        <p>著者: <span id="book-author"></span></p>
+        <p>isbn13: <span id="book-isbn13"></span></p>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>何度やっても表示されないよ～～と焦ってたら、validateメソッドの中にjQuery使った文を書いちゃってました..てへ</p>
+</body>
+
+</html>
