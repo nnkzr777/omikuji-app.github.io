@@ -43,9 +43,6 @@ books.push(new Book({
     title: 'プリンシプル オブ プログラミング3年目までに身につけたい一生役立つ101の原理原則'
 }));
 
-$(() => {
-    $('#box').html('jQueryを使っています');
-});
 document.addEventListener("DOMContentLoaded", () => refresh());
 
 /**
