@@ -1,0 +1,44 @@
+#book-list {
+    list-style: none;
+}
+
+#book-list li, #selected-book, #add {
+    width: 500px;
+    border: solid 1px #808080;
+    border-radius: 0.5em;
+    margin: 10px;
+    padding: 1em;
+}
+
+#book-list li:hover {
+    background-color: #CECECE;
+}
+
+#selected-book, #add {
+    margin-left: 50px;
+}
+
+#selected-book h3 {
+    text-align: center;
+}
+
+#add {
+    text-align: center;
+}
+
+#add table {
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+}
+
+.d-flex {
+    display: flex; /*子要素を横並びにする*/
+    justify-content: space-between; /*子要素は間に等分のスペースを取る*/
+}
+
+.book-title {
+    margin-right: 2rem;
+}
