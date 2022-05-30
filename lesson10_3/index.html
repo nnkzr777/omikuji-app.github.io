@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson10_3</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
+
+<body>
+<div class="timer-wrapper">
+    <p id="timer">0</p>
+    <div class="button-wrapper">
+        <button id="button-start" onclick="start()">スタート</button>
+        <button id="button-stop" onclick="stop()" disabled>ストップ</button>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>setIntervalの戻り値であるタイマーidの意味がよくわかってなくて、最初グローバルスコープに宣言したtimerIdにそのままsetIntervalを代入してしまってました。</p>
+<p>するとスタートボタン押す前に勝手にカウントが始まったので気がつきましたｗ</p>
+<p>timerIdはタイマーをストップする時に渡さないといけないから宣言したのであって、setIntervalは代入しようがしなかろうが書いたら即実行されてしまうということに..</p>
+</body>
+
+</html>
