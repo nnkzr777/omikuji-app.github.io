@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>lesson10_4</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
+
+<body>
+<div class="timer-wrapper">
+    <p id="timer">0</p>
+    <div class="button-wrapper">
+        <button id="button-start" onclick="start()">スタート</button>
+        <button id="button-stop" onclick="stop()" disabled>ストップ</button>
+        <button id="button-reset" onclick="reset()" disabled>リセット</button>
+    </div>
+</div>
+<hr>
+<h3>コメント</h3>
+<p>ボタンのenable/disableの切り替えがややこしかったけど、後はすんなりできた気がします。</p>
+<p>でも答えを見たかんじ、resetメソッド内にもclearIntervalあった方がいいのかなぁ..？</p>
+</body>
+
+</html>
